@@ -2,6 +2,7 @@
 
 import { login } from "@/lib/api/auth";
 import { useAuthStore } from "@/stores/auth";
+import { Button } from "antd";
 import React from "react";
 
 export default function LoginButton() {
@@ -10,7 +11,7 @@ export default function LoginButton() {
 
   return (
     <>
-      <button
+      <Button
         onClick={async () => {
           const res = await login({
             identifier: "test_admin",
@@ -22,7 +23,7 @@ export default function LoginButton() {
         }}
       >
         Login Button
-      </button>
+      </Button>
       <pre>{JSON.stringify(data, null, 2)}</pre>
     </>
   );

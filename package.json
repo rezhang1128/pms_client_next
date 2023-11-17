@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "antd": "^5.11.1",
     "dayjs": "^1.11.10",
     "next": "14.0.3",
     "react": "^18",
