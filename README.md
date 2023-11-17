@@ -16,3 +16,4 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - [TailwindCSS](https://tailwindcss.com/docs/installation): Styling
 - [SWR](https://swr.vercel.app/docs/getting-started): Data fetching
 - [Zustand](https://github.com/pmndrs/zustand): Statement management
+- [Ant Design](https://ant.design/components/overview/): UI component library
