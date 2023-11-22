@@ -10,6 +10,7 @@
   "dependencies": {
     "antd": "^5.11.1",
     "dayjs": "^1.11.10",
+    "formik": "^2.4.5",
     "next": "14.0.3",
     "react": "^18",
     "react-dom": "^18",
