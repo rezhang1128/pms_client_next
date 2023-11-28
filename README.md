@@ -17,3 +17,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - [SWR](https://swr.vercel.app/docs/getting-started): Data fetching
 - [Zustand](https://github.com/pmndrs/zustand): Statement management
 - [Ant Design](https://ant.design/components/overview/): UI component library
+
+## Notes
+
+- [Use Ant Design with Next.js](https://ant.design/docs/react/use-with-next)
