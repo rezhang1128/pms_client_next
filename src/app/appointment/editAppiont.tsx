@@ -1,20 +1,8 @@
 import React from 'react';
 import { Modal, Form, Input, Button, Select } from 'antd';
-import { EditClinicModalProps } from './types';
+import { EditAppiontModalProps } from './types';
 
-
-const doctorOptions = [
-    { value: 'jack', label: 'Jack' },
-    { value: 'lucy', label: 'Lucy' },
-    { value: 'tom', label: 'Tom' },
-];
-const treatmentOptions = [
-    { value: 'treatment1', label: 'Treatment1' },
-    { value: 'treatment2', label: 'Treatment2' },
-    { value: 'treatment3', label: 'Treatment3' },
-];
-
-const EditClinicModal: React.FC<EditClinicModalProps> = ({ clinic, visible, onEditSubmit, onCancel }) => {
+const EditAppiontModal: React.FC<EditAppiontModalProps> = ({ appiont, visible, onEditSubmit, onCancel }) => {
   const [form] = Form.useForm();
 
   return (
@@ -34,28 +22,13 @@ const EditClinicModal: React.FC<EditClinicModalProps> = ({ clinic, visible, onEd
     >
       <Form
         form={form}
-        initialValues={clinic}
+        initialValues={appiont}
         onFinish={onEditSubmit}
       >
         <Form.Item name="doctor" rules={[{ required: true, message: 'Please select a doctor!' }]}>
-            <Select
-                mode="multiple"
-                allowClear
-                style={{ width: '100%' }}
-                placeholder="Select items"
-                defaultValue={[]}
-                options={doctorOptions}
-            />
         </Form.Item>
         <Form.Item name="treatment" rules={[{ required: true, message: 'Please select a treatment!' }]}>
-            <Select
-                mode="multiple"
-                allowClear
-                style={{ width: '100%' }}
-                placeholder="Select items"
-                defaultValue={[]}
-                options={treatmentOptions}
-            />
+        
         </Form.Item>
         <Form.Item name="name" label="Name" rules={[{ required: true }]}>
           <Input />
@@ -74,4 +47,4 @@ const EditClinicModal: React.FC<EditClinicModalProps> = ({ clinic, visible, onEd
   );
 };
 
-export default EditClinicModal;
+export default EditAppiontModal;

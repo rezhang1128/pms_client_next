@@ -1,28 +1,22 @@
 "use client"
-import {Input, Button, Space, Table, Tag, Modal, Select} from "antd";
+import {Input, Button, Space, Table, Tag, Modal, Select, Card} from "antd";
 import {PlusCircleOutlined, EditOutlined, DeleteOutlined} from '@ant-design/icons';
 import React, { useState } from 'react';
-import { type } from "os";
 import AddClinic from "./addClinic";
 import EditClinicModal from "./editClinic";
+import { clinicProp } from "./types";
+import "./location.css";
 
 const { Search } = Input;
 const { Column, ColumnGroup } = Table;
 
-type clinicProp = {
-    // key:React.Key;
-    name: string,
-    street: string,
-    phone: string,
-    email: string
-}
 export default function Location() {
-    var clinics:clinicProp[] = [{"name":"some clinic", "street":"yorgurt street", "phone":"0404040023","email":"test@gmail.com"},
-    {"name":"some clinic", "street":"yorgurt street", "phone":"0404040023","email":"test@gmail.com"},
-    {"name":"some clinic", "street":"yorgurt street", "phone":"0404040023","email":"test@gmail.com"},
-    {"name":"some clinic", "street":"yorgurt street", "phone":"0404040023","email":"test@gmail.com"},
-    {"name":"some clinic", "street":"yorgurt street", "phone":"0404040023","email":"test@gmail.com"},
-    {"name":"some clinic", "street":"yorgurt street", "phone":"0404040023","email":"test@gmail.com"}]; 
+    var clinics:clinicProp[] = [{"name":"some clinic", "address":"yorgurt street", "phone":"0404040023","email":"test@gmail.com"},
+    {"name":"some clinic", "address":"yorgurt street", "phone":"0404040023","email":"test@gmail.com"},
+    {"name":"some clinic", "address":"yorgurt street", "phone":"0404040023","email":"test@gmail.com"},
+    {"name":"some clinic", "address":"yorgurt street", "phone":"0404040023","email":"test@gmail.com"},
+    {"name":"some clinic", "address":"yorgurt street", "phone":"0404040023","email":"test@gmail.com"},
+    {"name":"some clinic", "address":"yorgurt street", "phone":"0404040023","email":"test@gmail.com"}]; 
 
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [editingClinic, setEditingClinic] = useState('');
@@ -51,7 +45,7 @@ export default function Location() {
         console.log('Updated values:', values);
         // Update logic here
         setIsEditVisible(false);
-        setEditingClinic(null);
+        setEditingClinic('');
     };
 
     return (
@@ -61,17 +55,18 @@ export default function Location() {
             <a>See all clinic addresses</a>
             <div className="flex justify-start mt-6">
                 <Search style={{ width: '30%', minWidth: '200px'  }}  className="" placeholder="input search text" size="large" />
-                <Button onClick={showModal} className="bg-blue-500 text-white flex justify-items-center ml-4 h-10 rounded-2xl">
-                    <div className="flex justify-items-center p-1">
+                <Button onClick={showModal} type="primary" className=" flex justify-items-center ml-4 h-10 rounded-2xl">
+                    <div className="flex justify-items-center">
                         <PlusCircleOutlined />                        
                         <span className="ml-4">ADD A CLINIC</span>
                     </div>
                 </Button>
             </div>
-            <Table className="mt-6" dataSource={clinics}>
+            {/* window size preference */}
+            <Table className="mt-6 hidden md:block" dataSource={clinics}>
                 
                 <Column title="NAME" dataIndex="name" key="name"/>
-                <Column title="STREET" dataIndex="street" key="street"/>
+                <Column title="STREET" dataIndex="address" key="address"/>
                 <Column title="PHONE" dataIndex="phone" key="phone"/>
                 <Column title="EMAIL" dataIndex="email" key="email"/>
                 <Column
@@ -88,19 +83,42 @@ export default function Location() {
                     key="delete"
                     render={(text, record) => (
                     <a onClick={() => onDelete(record)}>
-                        <DeleteOutlined />
+                        <DeleteOutlined style={{ color: 'red'}}/>
                     </a>
                     )}
                 />
             </Table>
-        
-        <AddClinic visible={isModalVisible} onCancel={handleCancel}></AddClinic>
-        <EditClinicModal
-            clinic={editingClinic}
-            visible={isEditVisible}
-            onEditSubmit={handleEditSubmit}
-            onCancel={() => setIsEditVisible(false)}
-        />
+             {/* phone size preference */}
+             {clinics.map((item, index) => (
+                <Card className="m-6 block md:hidden" key={index} title={item.name} style={{width: 400}}>
+                    <div className="flex">
+                        <p>{item.email} | {item.address} | {item.phone}</p>
+                        <div>
+                            <a onClick={() => onEdit(item)}>
+                                <EditOutlined style={{width:40,height:40}}/>
+                            </a>
+                            <a onClick={() => onDelete(item)}>
+                                <DeleteOutlined style={{ color: 'red' , width:40,height:40}} />
+                            </a>
+                        </div>
+                    </div>
+                    
+                </Card>
+            ))}
+
+            {/* Modal */}
+            <AddClinic visible={isModalVisible} onCancel={handleCancel}></AddClinic>
+            <EditClinicModal
+                
+                clinic={editingClinic}
+                visible={isEditVisible}
+                onEditSubmit={handleEditSubmit}
+                onCancel={() => setIsEditVisible(false)}
+            />
+
+           
+            
+
         </div>
       
     );
