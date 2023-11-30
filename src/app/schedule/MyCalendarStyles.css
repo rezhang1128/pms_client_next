@@ -1,0 +1,25 @@
+/* Custom styles for FullCalendar */
+
+/* Event title size */
+.fc-event-title, .fc-event-time {
+    font-size: 12px; /* Adjust the size as needed */
+  }
+  
+  /* Day number size in the month view */
+  .fc-daygrid-day-number {
+    font-size: 11px; /* Adjust the size as needed */
+  }
+  
+  /* Header title size */
+  .fc-toolbar-title, .fc-toolbar-chunk {
+    font-size: 12px; /* Adjust the size as needed */
+  }
+  /* CSS file */
+.fc-day-past {
+    
+    background-color:white; 
+    color: #e5e7eb; 
+    pointer-events: none; 
+  }
+  
+  

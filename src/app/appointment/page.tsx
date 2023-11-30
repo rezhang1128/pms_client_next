@@ -19,14 +19,14 @@ export default function Appointment() {
     { title: 'Patient', dataIndex: 'patient', key: 'patient' },
     { title: 'Email', dataIndex: 'email', key: 'email' },
     { title: 'Edit', dataIndex: 'edit', key: 'edit',
-    render: (text, record) => (
+    render: (record:appiontmentProp) => (
         <a onClick={() => onEdit(record)}>
           <EditOutlined />
         </a>
       ),
     },
     { title: 'Delete', dataIndex: 'delete', key: 'delete',
-    render: (text, record) => (
+    render: (record:appiontmentProp) => (
         <a onClick={() => onDelete(record)}>
           <DeleteOutlined style={{color:'red'}} />
         </a>
@@ -39,41 +39,45 @@ export default function Appointment() {
         key: '1',
         date: '2023-08-06',
         time: '15:05:00',
-        therapy: 'Acupuncture',
+        treatment: 'Acupuncture',
         location: 'Hobart Medical Clinic',
-        therapist: 'Jane Smith',
+        doctor: 'Jane Smith',
         patient: 'Test Patient',
         email: 'test@example.com',
+        clinic: 'test clinic'
     },
     {
         key: '1',
         date: '2023-08-06',
         time: '15:05:00',
-        therapy: 'Acupuncture',
+        treatment: 'Acupuncture',
         location: 'Hobart Medical Clinic',
-        therapist: 'test doctor',
+        doctor: 'test doctor',
         patient: 'Test Patient',
         email: 'test@example.com',
+        clinic: 'test clinic'
     },
     {
         key: '1',
         date: '2023-08-06',
         time: '15:05:00',
-        therapy: 'Acupuncture',
+        treatment: 'Acupuncture',
         location: 'Hobart Medical Clinic',
-        therapist: 'Jane Smith',
+        doctor: 'Jane Smith',
         patient: 'Test Patient',
         email: 'test@example.com',
+        clinic: 'test clinic'
     },
     {
         key: '1',
         date: '2023-08-06',
         time: '15:05:00',
-        therapy: 'Acupuncture',
+        treatment: 'Acupuncture',
         location: 'Hobart Medical Clinic',
-        therapist: 'Jane Smith',
+        doctor: 'Jane Smith',
         patient: 'Test Patient',
         email: 'test@example.com',
+        clinic: 'test clinic'
     }
   ];
   const [selectedPatient, setSelectedPatient] = useState('All');
@@ -118,11 +122,12 @@ export default function Appointment() {
   };
 
  // set item type after connect to backend
-  const onEdit=(item)=>{
+  const onEdit=(item:any)=>{
     setIsEditVisible(true);
     setEditingAppiont(item);
   };
-  const onDelete = (record) => {
+  // record here will be id ro something else
+  const onDelete = (record:any) => {
     console.log('Delete', record);
     // Your delete logic here   
   };
@@ -144,9 +149,9 @@ export default function Appointment() {
     return data.filter((item) => {
       return (
         (selectedPatient === 'All' || item.patient === selectedPatient) &&
-        (selectedDoctor === 'All' || item.therapist === selectedDoctor) &&
+        (selectedDoctor === 'All' || item.doctor === selectedDoctor) &&
         (selectedClinic === 'All' || item.location === selectedClinic) &&
-        (selectedTherapy === 'All' || item.therapy === selectedTherapy)
+        (selectedTherapy === 'All' || item.treatment === selectedTherapy)
       );
     });
   };
@@ -199,7 +204,6 @@ export default function Appointment() {
                 {/* Add more options for treatments */}
             </Select>
         </div>
-        
       </div>
       <Table className='mt-6 p-4 hidden md:block' columns={columns} dataSource={filteredData}  pagination={{ pageSize: 2 }}></Table>
 
@@ -210,7 +214,7 @@ export default function Appointment() {
                 <div className=''>
                     <p>Email: {item.email}</p>
                     <p>Location: {item.location}</p> 
-                    <p>Therapy: {item.therapy}</p>
+                    <p>Therapy: {item.treatment}</p>
                 </div>
                 <div className='ml-4 flex flex-col'>
                     <a onClick={() => onEdit(item)}>

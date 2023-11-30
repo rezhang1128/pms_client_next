@@ -5,12 +5,11 @@ import React, { useState } from 'react';
 import AddClinic from "./addClinic";
 import EditClinicModal from "./editClinic";
 import { clinicProp } from "./types";
-import "./location.css";
 
 const { Search } = Input;
 const { Column, ColumnGroup } = Table;
 
-export default function Location() {
+export default function Location() {    
     var clinics:clinicProp[] = [{"name":"some clinic", "address":"yorgurt street", "phone":"0404040023","email":"test@gmail.com"},
     {"name":"some clinic", "address":"yorgurt street", "phone":"0404040023","email":"test@gmail.com"},
     {"name":"some clinic", "address":"yorgurt street", "phone":"0404040023","email":"test@gmail.com"},
@@ -19,7 +18,7 @@ export default function Location() {
     {"name":"some clinic", "address":"yorgurt street", "phone":"0404040023","email":"test@gmail.com"}]; 
 
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [editingClinic, setEditingClinic] = useState('');
+    const [editingClinic, setEditingClinic] = useState<clinicProp | null>(null);
     const [isEditVisible, setIsEditVisible] = useState(false);
 
     const showModal = () => {
@@ -31,7 +30,7 @@ export default function Location() {
     };
 
     // Define the edit and delete functions
-    const onDelete = (record) => {
+    const onDelete = (record:any) => {
         console.log('Delete', record);
         // Your delete logic here
     };
@@ -45,7 +44,7 @@ export default function Location() {
         console.log('Updated values:', values);
         // Update logic here
         setIsEditVisible(false);
-        setEditingClinic('');
+        setEditingClinic(null);
     };
 
     return (
@@ -72,7 +71,7 @@ export default function Location() {
                 <Column
                     title="EDIT"
                     key="edit"
-                    render={(text, record) => (
+                    render={(record) => (
                     <a onClick={() => onEdit(record)}>
                         <EditOutlined />
                     </a>

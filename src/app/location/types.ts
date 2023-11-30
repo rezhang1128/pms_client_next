@@ -2,7 +2,7 @@
 export type clinicProp = {
     // key:React.Key;
     name: string,
-    street: string,
+    address: string,
     phone: string,
     email: string
 }
