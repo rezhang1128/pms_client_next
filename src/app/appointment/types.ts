@@ -1,5 +1,6 @@
 
 export type appiontmentProp = {
+    id:string,
     date: string,
     time: string,
     doctor:string,

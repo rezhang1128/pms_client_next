@@ -11,10 +11,11 @@ import Calendar from "./calendar";
 import ShowAppointment from "./showAppointment";
 import MakeAppointment from "./makeAppointment";
 import { appiontmentProp } from "../appointment/types";
+import { AvailiableApp } from "./types";
 
 function AppointmentCalendar() {
-  const [calendarState, setCalendarState] = useState("show");
-  const [currentAppointment, setCurrentAppointment] = useState<appiontmentProp|null>(null);
+  const [makeAppintment, setMakeAppintment] = useState(false);
+  
   const [appointments, setAppointments] = useState<
     { id: string; title: string; start: string; end: string }[]
   >([]);
@@ -46,8 +47,48 @@ function AppointmentCalendar() {
 
   // Event click handler
   //   const handleEventClick = ;
-  const fakeData = [
+  const fakeApp: AvailiableApp[] = [
     {
+      doctor: "test doc1",
+      clinic: "clinic1",
+      address: "test address1",
+      startTime: "2023-12-14T12:42:31.255604",
+      endTime: "2023-12-14T13:42:31.255604"
+    },
+    {
+      doctor: "test doc2",
+      clinic: "clinic2",
+      address: "test address2",
+      startTime: "2023-12-29T18:42:31.255640",
+      endTime: "2023-12-29T19:42:31.255640"
+    },
+    {
+      doctor: "test doc3",
+      clinic: "clinic3",
+      address: "test address3",
+      startTime: "2023-12-20T02:42:31.255649",
+      endTime: "2023-12-20T03:42:31.255649"
+    },
+    {
+      doctor: "test doc4",
+      clinic: "clinic4",
+      address: "test address4",
+      startTime: "2023-12-07T16:42:31.255656",
+      endTime: "2023-12-07T17:42:31.255656"
+    },
+    {
+      doctor: "test doc5",
+      clinic: "clinic5",
+      address: "test address5",
+      startTime: "2023-12-17T00:42:31.255662",
+      endTime: "2023-12-17T01:42:31.255662"
+    }
+    
+  ];
+
+  const fakeData:appiontmentProp[] = [
+    {
+      id:'1',
       date: "2023-12-06",
       time: "15:05:00",
       treatment: "Acupuncture",
@@ -58,6 +99,7 @@ function AppointmentCalendar() {
       clinic: "test clinic",
     },
     {
+      id:'2',
       date: "2023-012-07",
       time: "15:05:00",
       treatment: "Acupuncture",
@@ -68,6 +110,7 @@ function AppointmentCalendar() {
       clinic: "test clinic",
     },
     {
+      id:'3',
       date: "2023-12-08",
       time: "15:05:00",
       treatment: "Acupuncture",
@@ -78,138 +121,24 @@ function AppointmentCalendar() {
       clinic: "test clinic",
     },
   ];
-  function getAppointment(record:appiontmentProp) {
-    setCurrentAppointment(record);
-  }
+  
   function makeAppointment() {
-    setCalendarState("make");
-    alert({ calendarState });
+    setMakeAppintment(true);
   }
   function showAppointment() {
-    setCalendarState("show");
-    alert({ calendarState });
+    setMakeAppintment(false);
   }
   return (
     <div className="flex bg-white p-6 rounded-xl h-full w-full ml-6">
-      <div style={{ width: "50%", height: "50%" }}>
-        {/* <FullCalendar
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-          initialView="dayGridMonth"
-          events={appointments}
-          eventClick={({ event }) => {
-            alert(`Appointment: ${event.title}`);
-            // You can do more here, like opening a modal with appointment details
-          }}
-          selectable={true}
-          selectMirror={true}
-          select={handleDateSelect}
-          headerToolbar={{
-            left: "prev,next today",
-            center: "title",
-            right: "dayGridMonth,timeGridWeek,timeGridDay",
-          }}
-          selectAllow={(selectInfo) => {
-            const today = new Date();
-            today.setHours(0, 0, 0, 0); // Set time to start of day
-            const selectedDate = new Date(selectInfo.start);
-            selectedDate.setHours(0, 0, 0, 0); // Ensure we're also comparing start of day
-
-            // Allow selection if the selected date is today or in the future
-            return selectedDate >= today;
-          }}
-        /> */}
-        <Calendar detail={getAppointment} appointment={fakeData} state={calendarState} />
-      </div>
-      
-      {calendarState === 'show' ? (
-      <div className="ml-6">
+      <div className="w-full h-full">
         <ShowAppointment
-          currentApp={currentAppointment}
+          appointment={fakeData}
           onSubmit={makeAppointment}
         />
       </div>
-    ) : calendarState === 'make' ? (
-      <div className="ml-6">
-        <MakeAppointment onSubmit={showAppointment}/>
-      </div>
-    ) : (
-      <div className="ml-6">
-        <p>Please select an action.</p>
-      </div>
-    )}
-      
-      {/* Appointment showing part
-      <Button type="primary">Make a Appointment</Button>
-
-      {/*Appiontment makeing part
-      <div className="ml-4 space-x-6 mt-6 hidden md:flex">
-        <div>
-          <p>Select location</p>
-          <Select
-            style={{ width: 150 }}
-            defaultValue="All"
-            onChange={(value) => setSelectedLocation(value)}
-          >
-            <Select.Option value="All">All</Select.Option>
-            {/* Add more options for patients
-          </Select>
-        </div>
-
-        <div>
-          <p>Select doctor</p>
-          <Select
-            style={{ width: 150 }}
-            defaultValue="All"
-            onChange={(value) => setSelectedDoctor(value)}
-          >
-            <Select.Option value="All">All</Select.Option>
-            <Select.Option value="test doctor">Test doctor</Select.Option>
-            {/* Add more options for doctors
-          </Select>
-        </div>
-
-        <div>
-          <p>Select clinic</p>
-          <Select
-            style={{ width: 150 }}
-            defaultValue="All"
-            onChange={(value) => setSelectedClinic(value)}
-          >
-            <Select.Option value="All">All</Select.Option>
-            {/* Add more options for clinics 
-          </Select>
-        </div>
-
-        <div>
-          <p>Select treatment</p>
-          <Select
-            style={{ width: 150 }}
-            defaultValue="All"
-            onChange={(value) => setSelectedTherapy(value)}
-          >
-            <Select.Option value="All">All</Select.Option>
-            {/* Add more options for treatments
-          </Select>
-        </div>
-      </div> */}
+      <MakeAppointment visible={makeAppintment} availiableApp={fakeApp} onSubmit={()=>{}} onCancel={showAppointment} />
     </div>
   );
 }
 
 export default AppointmentCalendar;
-// Handle what happens when a date is selected
-function handleDateSelect(selectInfo: any) {
-  let title = prompt("Enter a new title for your appointment:");
-  let calendarApi = selectInfo.view.calendar;
-
-  calendarApi.unselect(); // clear date selection
-
-  if (title) {
-    calendarApi.addEvent({
-      title,
-      start: selectInfo.startStr,
-      end: selectInfo.endStr,
-      allDay: selectInfo.allDay,
-    });
-  }
-}

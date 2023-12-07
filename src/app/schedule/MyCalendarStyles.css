@@ -21,5 +21,9 @@
     color: #e5e7eb; 
     pointer-events: none; 
   }
+  .highlight-date {
+    background-color: #ededed;
+     /* Or any other highlight color */
+  }
   
   

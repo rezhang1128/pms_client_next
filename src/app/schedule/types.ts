@@ -5,11 +5,22 @@ export type CalendarProp = {
     state: string
 }
 export type ShowAppointmentProps = {
-    currentApp: appiontmentProp | null;
-    onSubmit: () => void;
+    appointment: appiontmentProp[] | null,
+    onSubmit: () => void
 };
+
+export type AvailiableApp = {
+    doctor: string,
+    clinic: string,
+    address: string,
+    startTime: string,
+    endTime: string
+}
 
 export type MakeAppointmentProps = {
 // currentApp: appiontmentProp | null;
-onSubmit: () => void;
+visible: boolean,
+availiableApp: AvailiableApp[] | [],
+onSubmit: () => void
+onCancel: () => void
 };
