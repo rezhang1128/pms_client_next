@@ -15,6 +15,7 @@ import { AvailiableApp } from "./types";
 
 function AppointmentCalendar() {
   const [makeAppintment, setMakeAppintment] = useState(false);
+  const [choosenApp, setChoosenApp] = useState<AvailiableApp|null>(null);
   
   const [appointments, setAppointments] = useState<
     { id: string; title: string; start: string; end: string }[]
@@ -100,7 +101,7 @@ function AppointmentCalendar() {
     },
     {
       id:'2',
-      date: "2023-012-07",
+      date: "2023-12-07",
       time: "15:05:00",
       treatment: "Acupuncture",
       location: "Hobart Medical Clinic",
@@ -119,6 +120,16 @@ function AppointmentCalendar() {
       patient: "Test Patient",
       email: "test@example.com",
       clinic: "test clinic",
+    },{
+      id:'4',
+      date: "2023-12-09",
+      time: "15:05:00",
+      treatment: "Acupuncture",
+      location: "Hobart Medical Clinic",
+      doctor: "Jane Smith",
+      patient: "Test Patient",
+      email: "test@example.com",
+      clinic: "test clinic",
     },
   ];
   
@@ -129,14 +140,16 @@ function AppointmentCalendar() {
     setMakeAppintment(false);
   }
   return (
-    <div className="flex bg-white p-6 rounded-xl h-full w-full ml-6">
+    <div className="flex bg-white p-6 rounded-xl h-full w-full ml-2">
       <div className="w-full h-full">
         <ShowAppointment
           appointment={fakeData}
           onSubmit={makeAppointment}
         />
       </div>
-      <MakeAppointment visible={makeAppintment} availiableApp={fakeApp} onSubmit={()=>{}} onCancel={showAppointment} />
+      <MakeAppointment visible={makeAppintment} availiableApp={fakeApp} getApp={setChoosenApp} onCancel={showAppointment} />
+      <div>
+</div>
     </div>
   );
 }

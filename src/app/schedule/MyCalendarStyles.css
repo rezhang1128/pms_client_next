@@ -25,5 +25,79 @@
     background-color: #ededed;
      /* Or any other highlight color */
   }
+
+@media (min-width: 769px) {
+    .full-calendar-container {
+        height: 50vh; /* 50% of the viewport height */
+        width: 50vw; /* 50% of the viewport width */
+    }
+}
+
+/* For screens smaller than or equal to 768px (md) */
+@media (max-width: 768px) {
+    .full-calendar-container {
+        height: 50vh; /* 100% of the viewport height */
+        width: 90vw; /* 100% of the viewport width */
+    }
+}
+ 
+@media (min-width: 769px) {
+    .full-calendar-container2 {
+        height: 50%; /* 50% of the viewport height */
+        width: 50%; /* 50% of the viewport width */
+    }
+}
+
+/* For screens smaller than or equal to 768px (md) */
+@media (max-width: 768px) {
+    .full-calendar-container2 {
+        height: 40%; /* 100% of the viewport height */
+        width: 100%; /* 100% of the viewport width */
+    }
+}
+ 
+@media (min-width: 769px) {
+    .AppSelect {
+        width: 12vw; /* 50% of the viewport width */
+        font-size: 7px;
+    }
+}
+
+/* For screens smaller than or equal to 768px (md) */
+@media (max-width: 768px) {
+    .AppSelect {
+        width: 18vw; /* 50% of the viewport width */
+        font-size: 5px;
+    }
+}
+
+.fc-event {
+    font-size: 16px; /* Adjust as needed */
+  }
   
+  /* Smaller font size for medium screens */
+  @media (max-width: 1024px) {
+    .fc-event {
+      font-size: 14px; /* Adjust as needed */
+    }
+  }
   
+  /* Even smaller font size for small screens */
+  @media (max-width: 768px) {
+    .fc-event {
+      font-size: 12px; /* Adjust as needed */
+    }
+  }
+  
+  /* Smallest font size for extra small screens */
+  @media (max-width: 480px) {
+    .fc-event {
+      font-size: 10px; /* Adjust as needed */
+    }
+  }
+.fc-day-other{
+    visibility: hidden;
+}
+.fc-col-header-cell-cushion{
+    color:black;
+}

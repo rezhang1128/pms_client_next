@@ -1,12 +1,9 @@
 import { Formik } from "formik";
 import { MakeAppointmentProps } from "./types";
 import { Select, Button, Modal, Form } from "antd";
-import { CalendarProp } from "./types";
-import React, { useState } from "react";
-import { appiontmentProp } from "../appointment/types";
+import { AvailiableApp } from "./types";
+import React, { useState, useRef } from "react";
 import FullCalendar from "@fullcalendar/react";
-import DateClickArg from "@fullcalendar/react";
-import DayCellContentArg from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -15,7 +12,7 @@ import "./MyCalendarStyles.css";
 const MakeAppointment: React.FC<MakeAppointmentProps> = ({
   visible,
   availiableApp,
-  onSubmit,
+  getApp,
   onCancel,
 }) => {
   // return <Formik initialValues={{}} onSubmit={(values)=>{
@@ -28,18 +25,22 @@ const MakeAppointment: React.FC<MakeAppointmentProps> = ({
   const [selectedDoctor, setSelectedDoctor] = useState("All");
   const [selectedClinic, setSelectedClinic] = useState("All");
   const [selectedTherapy, setSelectedTherapy] = useState("All");
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedApp, setSelectedApp] = useState<AvailiableApp|null>(null);
   const [calendarKey, setCalendarKey] = useState(Date.now());
+  const [isSelectable, setIsSelectable] = useState(true);
 
   const calendarEvents = availiableApp.map(appointment => ({
-    title: `${appointment.doctor}, ${appointment.clinic}`,
-    start: new Date(appointment.startTime).toISOString(),
-    end: new Date(appointment.endTime).toISOString,
+    title: `${appointment.doctor}`,
+    start: (new Date(appointment.startTime)).toISOString(),
+    end: (new Date(appointment.endTime)).toISOString(),
     // You can add more properties as needed
     extendedProps: {
-      address: appointment.address
+      address: appointment.address,
+      clinic: appointment.clinic
     }
   }));
+
+  const calendarRef = useRef<FullCalendar>(null);
   
   // Update the key when the modal is closed to force re-render of the FullCalendar
   const handleCloseModal = () => {
@@ -47,7 +48,9 @@ const MakeAppointment: React.FC<MakeAppointmentProps> = ({
     setCalendarKey(Date.now());
     setRenderCalendar(false);
   };
+
   const [renderCalendar, setRenderCalendar] = useState(false);
+  //make sure the calendar can be rendered completly
   React.useEffect(() => {
     if (visible) {
       // Use a timeout to delay the rendering
@@ -59,24 +62,46 @@ const MakeAppointment: React.FC<MakeAppointmentProps> = ({
   }, [visible]);
 
 
-  const handleDateClick = (arg) => {
-    setSelectedDate(arg.dateStr); // dateStr is a property of DateClickArg
+  const handleDateClick = (arg: any) => {
+    const calendarApi= calendarRef.current?.getApi();
+    if (calendarApi && availableDatesSet.has(arg.dateStr)) {
+      calendarApi.changeView('timeGridWeek', arg.date);
+    }
   };
-  const [form] = Form.useForm();
+
+  const handleEventClick = (clickInfo:any) => {
+    const newApp:AvailiableApp = {
+      doctor: clickInfo.event.title,
+      clinic: clickInfo.event.extendedProps.clinic,
+      address: clickInfo.event.extendedProps.address,
+      startTime: clickInfo.event.start,
+      endTime: clickInfo.event.end
+    } 
+    setSelectedApp(newApp);
+    // alert(`Clicked event: ${clickInfo.event.title}`);
+    // if (clickInfo.event.extendedProps && clickInfo.event.extendedProps.address) {
+    //   alert(`Event address: ${clickInfo.event.extendedProps.address}`);
+    // }
+  };
+
+  const handleEventSubmit = () => {
+    if (selectedApp) {
+      // Call the getApp function with the selected event details
+      getApp(selectedApp);
+      handleCloseModal();
+    } else {
+      // Handle case when no event is selected
+      alert("No event selected");
+    }
+  }
+
   const availableDatesSet = new Set(availiableApp.map(app => new Date(app.startTime).toISOString().split('T')[0]));
-  // const handleDayCellDidMount = (arg) => {
-  //   const dateStr = arg.date.toISOString().split('T')[0];
-  //   if (!availableDatesSet.has(dateStr)) {
-  //     arg.el.style.backgroundColor = '#ededed';
-  //     arg.el.style.color = '#ededed';
-  //   }
-  //   console.log(`Day cell date: ${dateStr}, Available: ${availableDatesSet.has(dateStr)}`);
-  // };
+
   return (
     <Modal
       title="Make Appointment"
       open={visible}
-      onOk={() => form.submit()}
+      onOk={handleEventSubmit}
       onCancel={handleCloseModal}
       width="100vw"
       style={{
@@ -90,37 +115,39 @@ const MakeAppointment: React.FC<MakeAppointmentProps> = ({
           className=""
           type="primary"
           key="submit"
-          onClick={() => form.submit()}
+          onClick={handleEventSubmit}
         >
-          Apply
+          Submit
         </Button>,
       ]}
     >
-      <div className="flex space-x-2">
+      <div className="block md:flex space-x-2">
         {renderCalendar &&(
-          <div key={calendarKey} style={{height:"50%", width:"50%"}}>
+          <div className="full-calendar-container2" key={calendarKey}>
           <FullCalendar
+            ref={calendarRef}
             timeZone="UTC"
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"
-            selectable={true}
+            selectable={isSelectable}
             selectMirror={true}
             headerToolbar={{
               left: "prev,next",
               center: "title",
-              right: "dayGridMonth,timeGridWeek,timeGridDay",
+              right: "dayGridMonth,timeGridWeek",
             }}
             events={calendarEvents}
+            eventClick={handleEventClick}
             dateClick={handleDateClick}
-            // dayCellDidMount={handleDayCellDidMount}
             dayCellDidMount={(arg)=>{
               const dateStr = arg.date.toISOString().split('T')[0];
               if (!availableDatesSet.has(dateStr)) {
-                arg.el.style.backgroundColor = '#ededed';
-                arg.el.style.color = '#ededed';
+                arg.el.style.backgroundColor = 'white';
+                const fcContent = arg.el.querySelector('.fc-daygrid-day-number'); // For FullCalendar v5
+                if (fcContent) {
+                  (fcContent as HTMLElement).style.color = '#e5e7eb'; // Darker grey color for the text
+                }
                 
-              }else{
-                console.log(arg.el.innerHTML, dateStr);
               }
             }}
             selectAllow={selectInfo => {
@@ -128,22 +155,33 @@ const MakeAppointment: React.FC<MakeAppointmentProps> = ({
               console.log(`Select date: ${dateStr}, Allowed: ${availableDatesSet.has(dateStr)}`);
               return availableDatesSet.has(dateStr);
             }}
+            datesSet={(dateInfo)=>{
+              if (dateInfo.view.type === 'timeGridWeek') {
+                setIsSelectable(false); // Disable slot selection for week view
+              } else {
+                setIsSelectable(true); // Enable slot selection for other views
+              }
+            }}
           />
         </div>
         )}
         
         <div>
-          <div className="flex space-x-2">
+          <div className="flex space-x-1 md:space-x-2 mt-4 md:mt-0 ml-0 md:ml-2">
             {/*Remember all data here need to be unique, you need to get unique value from database or
             find other way to find unique value first*/}
             <div>
-              <p>Select location</p>
+              <p className="hidden md:block">Select location</p>
               <Select
-                style={{ width: '12vw' }}
+                className="AppSelect"
+                
                 defaultValue="All"
                 onChange={(value) => setSelectedLocation(value)}
               >
-                <Select.Option value="All">All</Select.Option>
+                <Select.Option value="All">
+                  <p className="hidden md:block">All</p>
+                  <p className="display md:hidden">Location</p>
+                </Select.Option>
                 {availiableApp &&
                 availiableApp.map((item, i) => (
                   <Select.Option key={i} value={item.address}>{item.address}</Select.Option>
@@ -151,13 +189,17 @@ const MakeAppointment: React.FC<MakeAppointmentProps> = ({
               </Select>
             </div>
             <div>
-              <p>Select doctor</p>
+              <p className="hidden md:block">Select doctor</p>
               <Select
-                style={{ width: '12vw'}}
+                className="AppSelect"
+                
                 defaultValue="All"
                 onChange={(value) => setSelectedDoctor(value)}
               >
-                <Select.Option value="All">All</Select.Option>
+                <Select.Option value="All">
+                <p className="hidden md:block">All</p>
+                  <p className="display md:hidden">Doctor</p>
+                </Select.Option>
                 {availiableApp &&
                 availiableApp.map((item, i) => (
                   <Select.Option key={i} value={item.doctor}>{item.doctor}</Select.Option>
@@ -166,13 +208,17 @@ const MakeAppointment: React.FC<MakeAppointmentProps> = ({
             </div>
 
             <div>
-              <p>Select clinic</p>
+              <p className="hidden md:block">Select clinic</p>
               <Select
-                style={{ width: '12vw' }}
+                className="AppSelect"
+                
                 defaultValue="All"
                 onChange={(value) => setSelectedClinic(value)}
               >
-                <Select.Option value="All">All</Select.Option>
+                <Select.Option value="All">
+                <p className="hidden md:block">All</p>
+                  <p className="display md:hidden">Clinic</p>
+                </Select.Option>
                 {availiableApp &&
                 availiableApp.map((item, i) => (
                   <Select.Option key={i} value={item.clinic}>{item.clinic}</Select.Option>
@@ -181,13 +227,16 @@ const MakeAppointment: React.FC<MakeAppointmentProps> = ({
             </div>
 
             <div>
-              <p>Select treatment</p>
+              <p className="hidden md:block">Select treatment</p>
               <Select
-                style={{ width: '12vw' }}
+                className="AppSelect"
                 defaultValue="All"
                 onChange={(value) => setSelectedTherapy(value)}
               >
-                <Select.Option value="All">All</Select.Option>
+                <Select.Option value="All">
+                <p className="hidden md:block">All</p>
+                  <p className="display md:hidden">Therapy</p>
+                </Select.Option>
                 {/* {availiableApp &&
                 availiableApp.map((item) => (
                   <Select.Option value={}>All</Select.Option>
@@ -196,20 +245,22 @@ const MakeAppointment: React.FC<MakeAppointmentProps> = ({
             </div>
           </div>
 
-          <div className="mt-6 flex flex-col space-y-2" >
-            {availiableApp &&
-              availiableApp.map((item, i) => (
-                <Button
-                key={i}
-                style={{width:"50%"}}
-                  type="primary"
-                  // Assuming item.dateTime is a Date object, format it as needed
-                  value={`${item.startTime}`}
-                >
-                  {item.startTime}
-                </Button>
-              ))}
-          </div>
+          
+          {selectedApp?(
+              <div className="mt-6 p-0 md:p-4 flex flex-col space-y-2">
+                <div>
+                  <p>Doctor Name: {selectedApp.doctor}</p>
+                  <p>Clinic Name: {selectedApp.clinic}</p>
+                </div>
+                <div>
+                  <p>Clinic address: {selectedApp.address}</p>
+                </div>
+                <p>Appointment Time: {new Date(selectedApp.startTime).toISOString()} - {new Date(selectedApp.endTime).toISOString()}</p>
+              </div>
+          ):(
+            <p>Appointment Details</p>
+          )}
+          
         </div>
       </div>
     </Modal>
