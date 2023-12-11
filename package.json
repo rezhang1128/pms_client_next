@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
+    "@headlessui/react": "^1.7.17",
     "antd": "^5.11.1",
     "dayjs": "^1.11.10",
     "formik": "^2.4.5",
