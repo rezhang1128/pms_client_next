@@ -48,7 +48,7 @@ const AddClinic: React.FC<MyModalProps> = ({ visible, onCancel }) => {
         <Button key="back" onClick={onCancel}>
           Cancel
         </Button>,
-        <Button className="bg-blue-600 text-white" key="submit" onClick={handleOk}>
+        <Button type='primary' key="submit" onClick={handleOk}>
           Add
         </Button>,
       ]}

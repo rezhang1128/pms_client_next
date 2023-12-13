@@ -27,14 +27,14 @@ const EditClinicModal: React.FC<EditClinicModalProps> = ({ clinic, visible, onEd
         <Button key="back" onClick={onCancel}>
           Cancel
         </Button>,
-        <Button className="bg-blue-600 text-white" key="submit" onClick={() => form.submit()}>
+        <Button type='primary' key="submit" onClick={() => form.submit()}>
           Save
         </Button>,
       ]}
     >
       <Form
         form={form}
-        initialValues={clinic}
+        initialValues={clinic||undefined}
         onFinish={onEditSubmit}
       >
         <Form.Item name="doctor" rules={[{ required: true, message: 'Please select a doctor!' }]}>

@@ -1,13 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Select, Button } from "antd";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction";
 import "./MyCalendarStyles.css";
-import { PlusCircleOutlined } from "@ant-design/icons";
-import Calendar from "./calendar";
 import ShowAppointment from "./showAppointment";
 import MakeAppointment from "./makeAppointment";
 import { appiontmentProp } from "../appointment/types";
@@ -20,10 +13,6 @@ function AppointmentCalendar() {
   const [appointments, setAppointments] = useState<
     { id: string; title: string; start: string; end: string }[]
   >([]);
-  const [selectedLocation, setSelectedLocation] = useState("All");
-  const [selectedDoctor, setSelectedDoctor] = useState("All");
-  const [selectedClinic, setSelectedClinic] = useState("All");
-  const [selectedTherapy, setSelectedTherapy] = useState("All");
 
   useEffect(() => {
     // Fetch appointments from your server and set them in state

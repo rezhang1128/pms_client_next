@@ -36,7 +36,7 @@ export default function Appointment() {
 
   const data = [
     {
-        key: '1',
+        id: '1',
         date: '2023-08-06',
         time: '15:05:00',
         treatment: 'Acupuncture',
@@ -47,7 +47,7 @@ export default function Appointment() {
         clinic: 'test clinic'
     },
     {
-        key: '1',
+        id: '2',
         date: '2023-08-06',
         time: '15:05:00',
         treatment: 'Acupuncture',
@@ -58,7 +58,7 @@ export default function Appointment() {
         clinic: 'test clinic'
     },
     {
-        key: '1',
+        id: '3',
         date: '2023-08-06',
         time: '15:05:00',
         treatment: 'Acupuncture',
@@ -69,7 +69,7 @@ export default function Appointment() {
         clinic: 'test clinic'
     },
     {
-        key: '1',
+        id: '4',
         date: '2023-08-06',
         time: '15:05:00',
         treatment: 'Acupuncture',
@@ -86,7 +86,7 @@ export default function Appointment() {
   const [selectedTherapy, setSelectedTherapy] = useState('All');
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   const [isEditVisible, setIsEditVisible] = useState(false);
-  const [editingAppiont, setEditingAppiont] = useState('');
+  const [editingAppiont, setEditingAppiont] = useState<appiontmentProp | null>(null);
   const [isDetailVisible, setIsDetailVisible] = useState(false);
   const [detailAppiont, setDetailAppiont] = useState<appiontmentProp | null>(null);
   const [form] = Form.useForm();
@@ -158,7 +158,7 @@ export default function Appointment() {
   const filteredData = getFilteredData();
 
   return (
-    <div className=" bg-white p-6 rounded-xl h-full w-full ml-6">
+    <div className=" bg-white p-6 rounded-xl h-full w-full md:ml-6">
       <h1 className="font-bold text-2xl">Appointments list</h1>
       <p>See information about all appointments you have made!</p>
       <div className='flex'>
@@ -205,7 +205,7 @@ export default function Appointment() {
             </Select>
         </div>
       </div>
-      <Table className='mt-6 p-4 hidden md:block' columns={columns} dataSource={filteredData}  pagination={{ pageSize: 2 }}></Table>
+      <Table className='mt-6 p-4 hidden md:block' columns={columns} dataSource={filteredData.map(data=>({...data, key:data.id}))}  pagination={{ pageSize: 5 }}></Table>
 
       {/*Phone version*/}
       {filteredData.map((item, index) => (
@@ -218,7 +218,7 @@ export default function Appointment() {
                 </div>
                 <div className='ml-4 flex flex-col'>
                     <a onClick={() => onEdit(item)}>
-                        <EditOutlined style={{width:40,height:40}}/>
+                        <EditOutlined className='w-' style={{width:40,height:40}}/>
                     </a>
                     <a onClick={() => onDelete(item)}>
                         <DeleteOutlined style={{ color: 'red' , width:40,height:40}} />
@@ -232,7 +232,7 @@ export default function Appointment() {
         </Card>
       ))}
 
-    
+    <EditAppiontModal appiont={editingAppiont} visible={isEditVisible} onEditSubmit={()=>{}} onCancel={cancelModal}></EditAppiontModal>
     {/*Filter Modal in phone version*/}
     <Modal
       width={400}

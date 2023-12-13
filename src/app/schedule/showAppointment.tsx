@@ -1,13 +1,8 @@
 import { ShowAppointmentProps } from "./types";
-import { Formik } from "formik";
-import { MakeAppointmentProps } from "./types";
-import { Select, Button } from "antd";
-import { CalendarProp } from "./types";
+import { Button, Spin } from "antd";
 import React, { useState, useRef } from "react";
-import { Modal } from "antd";
 import { appiontmentProp } from "../appointment/types";
 import FullCalendar from "@fullcalendar/react";
-import DateClickArg from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -15,6 +10,7 @@ import "./MyCalendarStyles.css";
 
 const ShowAppointment:React.FC<ShowAppointmentProps> = ({ appointment, onSubmit }) => {
 
+    const [calendarReady, setCalendarReady] = useState(false);
   const [selectedAppointment, setSelectedAppointment] =useState<appiontmentProp | null>(null);
   const calendarRef = useRef<FullCalendar>(null);
   const [isSelectable, setIsSelectable] = useState(true);
@@ -45,14 +41,18 @@ const ShowAppointment:React.FC<ShowAppointmentProps> = ({ appointment, onSubmit 
   }
   
   React.useEffect(() => {
-    const timer = setTimeout(() => {}, 10);
-    changePastClass();
-    return () => clearTimeout(timer);
+    const timer = setTimeout(() => {
+        setCalendarReady(true); // Set calendar to ready after the timeout
+        changePastClass();
+      }, 100); // Adjust timeout as needed
+  
+      return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div className="block md:flex w-full h-full">
-        <div className="full-calendar-container">
+    <div className="block md:flex w-full h-screen">
+        {calendarReady ? (
+        <div className="md:w-4/6 h-4/6 text-xs md:text-base">
             <FullCalendar
                 timeZone="UTC"
                 ref={calendarRef}
@@ -68,6 +68,8 @@ const ShowAppointment:React.FC<ShowAppointmentProps> = ({ appointment, onSubmit 
                     })) ?? []
                 }
                 eventClick={handleEventSelect}
+                height="100%"
+                
                 dateClick={handleDateClick}
                 selectMirror={true}
                 headerToolbar={{
@@ -89,9 +91,14 @@ const ShowAppointment:React.FC<ShowAppointmentProps> = ({ appointment, onSubmit 
                   }}
             /> 
         </div>
-      <div className="ml-6" style={{height:"50%", width:"50%"}}>
+        ) : (
+            <div className="m-4 md:mx-48 flex justify-center items-center h-4/6">
+          <Spin size="large" />
+        </div>
+        )}
+      <div className="md:ml-6 mt-2 md:mt-14 md:w-2/6">
         <Button onClick={onSubmit} type="primary">
-          Make a Appointment
+          Make an Appointment
         </Button>
         {selectedAppointment ? (
         <div className="mt-6" >

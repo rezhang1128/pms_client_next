@@ -49,7 +49,7 @@ export default function Location() {
 
     return (
       
-        <div className="bg-white p-6 rounded-xl h-full w-full ml-6">
+        <div className="bg-white p-6 rounded-xl h-full w-full md:ml-6">
             <h1 className="font-bold text-2xl">Clinic list</h1>
             <a>See all clinic addresses</a>
             <div className="flex justify-start mt-6">
@@ -89,7 +89,7 @@ export default function Location() {
             </Table>
              {/* phone size preference */}
              {clinics.map((item, index) => (
-                <Card className="m-6 block md:hidden" key={index} title={item.name} style={{width: 400}}>
+                <Card className="m-6 mt-2 block md:hidden" key={index} title={item.name} style={{width: 400}}>
                     <div className="flex">
                         <p>{item.email} | {item.address} | {item.phone}</p>
                         <div>
