@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
+    "@headlessui/react": "^1.7.17",
     "@fullcalendar/core": "^6.1.10",
     "@fullcalendar/daygrid": "^6.1.10",
     "@fullcalendar/interaction": "^6.1.10",
@@ -17,7 +18,7 @@
     "antd": "^5.11.1",
     "dayjs": "^1.11.10",
     "formik": "^2.4.5",
-    "next": "14.0.3",
+    "next": "^13",
     "react": "^18",
     "react-dom": "^18",
     "swr": "^2.2.4",
