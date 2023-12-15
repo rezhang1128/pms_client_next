@@ -48,7 +48,7 @@ const MakeAppointment: React.FC<MakeAppointmentProps> = ({
   
   // Update the key when the modal is closed to force re-render of the FullCalendar
   const handleCloseModal = () => {
-    onCancel();
+    onCancel(setSelectedApp);
     setCalendarKey(Date.now());
     setRenderCalendar(false);
   };
@@ -128,13 +128,11 @@ const MakeAppointment: React.FC<MakeAppointmentProps> = ({
       onOk={handleEventSubmit}
       onCancel={handleCloseModal}
       width="100vw"
-      style={{height:"100vh"}}
       footer={[
-        <Button key="back" onClick={onCancel}>
+        <Button key="back" onClick={handleCloseModal}>
           Cancel
         </Button>,
         <Button
-          className=""
           type="primary"
           key="submit"
           onClick={handleEventSubmit}
@@ -145,9 +143,9 @@ const MakeAppointment: React.FC<MakeAppointmentProps> = ({
       
     >
       
-      <div className="block md:flex space-x-2 h-full">
+      <div className="block md:flex flex-col space-x-2 h-full">
         {renderCalendar ?(
-          <div className="md:w-5/6 h-full text-xs md:text-base" key={calendarKey}>
+          <div className="md:w-5/6 h-96 text-xs md:text-base" key={calendarKey}>
             <FullCalendar
               ref={calendarRef}
               timeZone="UTC"
@@ -159,7 +157,7 @@ const MakeAppointment: React.FC<MakeAppointmentProps> = ({
                 center: "title",
                 right: "dayGridMonth,timeGridWeek",
               }}
-              height="auto"
+              height="100%"
               events={calendarEvents}
               eventClick={handleEventClick}
               dateClick={handleDateClick}
@@ -193,15 +191,15 @@ const MakeAppointment: React.FC<MakeAppointmentProps> = ({
             <Spin size="large" />
         </div>
         )}
-        <div className="w-fit md:mt-12">
-          <div className="w-fit flex space-x-1 md:space-x-1 mt-2 md:mt-0">
+        <div className="w-fit md:mt-12 ">
+          <div className="w-fit flex-col mt-2 md:mt-0 space-y-1 md:space-y-0">
             {/*Remember all data here need to be unique, you need to get unique value from database or
             find other way to find unique value first*/}
-            <div className="md:flex md:space-x-2 space-y-1 md:space-y-0 block">
+            <div className=" space-x-1 flex">
               <div className="h-fit">
                 <p className="hidden md:block">Select location</p>
                 <Select
-                  className="w-32"
+                  className="w-32 md:w-40"
                   
                   defaultValue="All"
                   onChange={(value) => setSelectedLocation(value)}
@@ -219,7 +217,7 @@ const MakeAppointment: React.FC<MakeAppointmentProps> = ({
               <div className="h-fit">
                 <p className="hidden md:block">Select doctor</p>
                 <Select
-                  className="w-32"
+                  className="w-32 md:w-40"
                   
                   defaultValue="All"
                   onChange={(value) => setSelectedDoctor(value)}
@@ -236,11 +234,11 @@ const MakeAppointment: React.FC<MakeAppointmentProps> = ({
               </div>
             </div>
 
-            <div className="md:flex md:space-x-2 w-fit space-y-1 md:space-y-0 block">
+            <div className=" space-x-1 w-fit flex">
               <div className="h-fit">
                 <p className="hidden md:block">Select clinic</p>
                 <Select
-                  className="w-32"
+                  className="w-32 md:w-40"
                   defaultValue="All"
                   onChange={(value) => setSelectedClinic(value)}
                 >
@@ -257,7 +255,7 @@ const MakeAppointment: React.FC<MakeAppointmentProps> = ({
               <div className="h-fit">
                 <p className="hidden md:block">Select treatment</p>
                 <Select
-                  className="w-32"
+                  className="w-32 md:w-40"
                   defaultValue="All"
                   onChange={(value) => setSelectedTherapy(value)}
                 >
@@ -274,7 +272,7 @@ const MakeAppointment: React.FC<MakeAppointmentProps> = ({
             </div>
           </div>
 
-          <div className="p-2 w-full h-96 md:block md:mt-6 hidden">
+          <div className="p-2 w-96 h-96 md:block md:mt-6 hidden">
             <p>Appointment Details:</p>
             {selectedApp?(
                 <div className="mt-2 p-0 md:p-4 flex flex-col space-y-2 border-2 w-full h-72">

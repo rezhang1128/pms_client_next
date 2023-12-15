@@ -26,6 +26,10 @@ const AddClinic: React.FC<MyModalProps> = ({ visible, onCancel }) => {
         console.log('Validate Failed:', info);
       });
   };
+  const handleCancel = () => {
+    form.resetFields();
+    onCancel();
+  }
 
   const doctorOptions = [
     { value: 'jack', label: 'Jack' },
@@ -43,9 +47,9 @@ const AddClinic: React.FC<MyModalProps> = ({ visible, onCancel }) => {
     <Modal
       title="Add Clinic"
       open={visible}
-      onCancel={onCancel}
+      onCancel={handleCancel}
       footer={[
-        <Button key="back" onClick={onCancel}>
+        <Button key="back" onClick={handleCancel}>
           Cancel
         </Button>,
         <Button type='primary' key="submit" onClick={handleOk}>

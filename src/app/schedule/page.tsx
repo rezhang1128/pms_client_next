@@ -125,9 +125,11 @@ function AppointmentCalendar() {
   function makeAppointment() {
     setMakeAppintment(true);
   }
-  function showAppointment() {
+  function showAppointment(setApp:Function) {
+    {
     setMakeAppintment(false);
-  }
+    setApp(null);
+  }}
   return (
     <div className="flex bg-white p-6 rounded-xl h-full w-full ml-2">
       <div className="w-full h-full">
