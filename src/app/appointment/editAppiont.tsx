@@ -1,8 +1,13 @@
 import React from 'react';
 import { Modal, Form, Input, Button, Select } from 'antd';
-import { EditAppiontModalProps } from './types';
+import {appiontmentProp} from "../../lib/types";
 
-const EditAppiontModal: React.FC<EditAppiontModalProps> = ({ appiont, visible, onEditSubmit, onCancel }) => {
+export default function EditAppiontModal({ appiont, visible, onEditSubmit, onCancel }:{
+  appiont:  appiontmentProp | null;
+  visible: boolean;
+  onEditSubmit: (values:  appiontmentProp) => void;
+  onCancel: () => void;
+}){
   const [form] = Form.useForm();
   const doctorOptions = [
     { value: 'jack', label: 'Jack' },
@@ -36,24 +41,24 @@ const treatmentOptions = [
         onFinish={onEditSubmit}
       >
         <Form.Item name="doctor" rules={[{ required: true, message: 'Please select a doctor!' }]}>
-        <Select
-                mode="multiple"
-                allowClear
-                style={{ width: '100%' }}
-                placeholder="Select items"
-                defaultValue={[]}
-                options={doctorOptions}
-            />
+          <Select
+            mode="multiple"
+            allowClear
+            style={{ width: '100%' }}
+            placeholder="Select items"
+            defaultValue={[]}
+            options={doctorOptions}
+          />
         </Form.Item>
         <Form.Item name="treatment" rules={[{ required: true, message: 'Please select a treatment!' }]}>
-        <Select
-                mode="multiple"
-                allowClear
-                style={{ width: '100%' }}
-                placeholder="Select items"
-                defaultValue={[]}
-                options={treatmentOptions}
-            />
+          <Select
+            mode="multiple"
+            allowClear
+            style={{ width: '100%' }}
+            placeholder="Select items"
+            defaultValue={[]}
+            options={treatmentOptions}
+          />
         </Form.Item>
         <Form.Item name="location" label="Location" rules={[{ required: true }]}>
           <Input />
@@ -71,5 +76,3 @@ const treatmentOptions = [
     </Modal>
   );
 };
-
-export default EditAppiontModal;

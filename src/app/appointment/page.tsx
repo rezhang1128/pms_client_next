@@ -2,7 +2,8 @@
 import React, {useState} from 'react';
 import { Table, Button, Select, Modal, Radio, Card,Form } from 'antd';
 import { EditOutlined, DeleteOutlined, FilterOutlined, RightOutlined } from '@ant-design/icons';
-import {appiontmentProp, filterProp} from './types';
+import { filterProp} from './types';
+import {appiontmentProp} from "../../lib/types";
 import EditAppiontModal from './editAppiont';
 // import EditAppiontModal from './editAppiont';
 
