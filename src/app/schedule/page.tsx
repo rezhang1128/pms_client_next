@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import "./MyCalendarStyles.css";
 import ShowAppointment from "./showAppointment";
 import MakeAppointment from "./makeAppointment";
-import { appiontmentProp } from "../../lib/types";
-import { AvailiableApp } from "../../lib/types";
+import { appiontmentProp } from "../appointment/types";
+import { AvailiableApp } from "./types";
 
 function AppointmentCalendar() {
   const [makeAppintment, setMakeAppintment] = useState(false);

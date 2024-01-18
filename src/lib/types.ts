@@ -50,23 +50,3 @@ export type Appointment = {
   location: number;
   patient: number;
 };
-
-export type AvailiableApp = {
-  doctor: string,
-  clinic: string,
-  address: string,
-  startTime: string,
-  endTime: string
-}
-
-export type appiontmentProp = {
-  id:string,
-  date: string,
-  time: string,
-  doctor:string,
-  treatment:string,
-  location: string,
-  patient: string,
-  email: string,
-  clinic:string
-}

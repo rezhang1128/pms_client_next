@@ -1,5 +1,6 @@
+import { MakeAppointmentProps } from "./types";
 import { Select, Button, Modal, Form, Col, Row, Spin } from "antd";
-import { AvailiableApp } from "../../lib/types";
+import { AvailiableApp } from "./types";
 import React, { useState, useRef } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -7,12 +8,22 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import "./MyCalendarStyles.css";
 
-export default function MakeAppointment({visible,availiableApp,getApp,onCancel}:{
-  visible: boolean,
-availiableApp: AvailiableApp[] | [],
-getApp: (arg0:AvailiableApp) => void,
-onCancel: (setApp:Function) => void
-}){
+const MakeAppointment: React.FC<MakeAppointmentProps> = ({
+  visible,
+  availiableApp,
+  getApp,
+  onCancel,
+}) => {
+  // return <Formik initialValues={{}} onSubmit={(values)=>{
+  //     onSubmit(values)
+  // }}>
+  //     {/* inputs */}
+  //     <button type="submit">Submit</button>
+  // </Formik>
+  const [selectedLocation, setSelectedLocation] = useState("All");
+  const [selectedDoctor, setSelectedDoctor] = useState("All");
+  const [selectedClinic, setSelectedClinic] = useState("All");
+  const [selectedTherapy, setSelectedTherapy] = useState("All");
   const [selectedApp, setSelectedApp] = useState<AvailiableApp|null>(null);
   const [calendarKey, setCalendarKey] = useState(Date.now());
   const [isSelectable, setIsSelectable] = useState(true);
@@ -191,7 +202,7 @@ onCancel: (setApp:Function) => void
                   className="w-32 md:w-40"
                   
                   defaultValue="All"
-                  onChange={() =>{}}
+                  onChange={(value) => setSelectedLocation(value)}
                 >
                   <Select.Option value="All">
                     <p className="hidden md:block">All</p>
@@ -209,7 +220,7 @@ onCancel: (setApp:Function) => void
                   className="w-32 md:w-40"
                   
                   defaultValue="All"
-                  onChange={() =>{}}
+                  onChange={(value) => setSelectedDoctor(value)}
                 >
                   <Select.Option value="All">
                   <p className="hidden md:block">All</p>
@@ -229,7 +240,7 @@ onCancel: (setApp:Function) => void
                 <Select
                   className="w-32 md:w-40"
                   defaultValue="All"
-                  onChange={() =>{}}
+                  onChange={(value) => setSelectedClinic(value)}
                 >
                   <Select.Option value="All">
                   <p className="hidden md:block">All</p>
@@ -246,7 +257,7 @@ onCancel: (setApp:Function) => void
                 <Select
                   className="w-32 md:w-40"
                   defaultValue="All"
-                  onChange={() =>{}}
+                  onChange={(value) => setSelectedTherapy(value)}
                 >
                   <Select.Option value="All">
                   <p className="hidden md:block">All</p>
@@ -325,3 +336,4 @@ onCancel: (setApp:Function) => void
     </Modal>
   );
 };
+export default MakeAppointment;

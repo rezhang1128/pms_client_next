@@ -1,16 +1,14 @@
+import { ShowAppointmentProps } from "./types";
 import { Button, Spin } from "antd";
 import React, { useState, useRef } from "react";
-import { appiontmentProp } from "../../lib/types";
+import { appiontmentProp } from "../appointment/types";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import "./MyCalendarStyles.css";
 
-export default function ShowAppointment ({ appointment, onSubmit }:{
-    appointment: appiontmentProp[] | null,
-    onSubmit: () => void
-})  {
+const ShowAppointment:React.FC<ShowAppointmentProps> = ({ appointment, onSubmit }) => {
 
     const [calendarReady, setCalendarReady] = useState(false);
   const [selectedAppointment, setSelectedAppointment] =useState<appiontmentProp | null>(null);
@@ -122,3 +120,4 @@ export default function ShowAppointment ({ appointment, onSubmit }:{
     </div>
   );
 };
+export default ShowAppointment;
