@@ -22,5 +22,5 @@ export type MakeAppointmentProps = {
 visible: boolean,
 availiableApp: AvailiableApp[] | [],
 getApp: (arg0:AvailiableApp) => void,
-onCancel: () => void
+onCancel: (cancelFunc: (arg0: AvailiableApp) => void) => void
 };
