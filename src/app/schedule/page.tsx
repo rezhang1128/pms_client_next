@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import "./MyCalendarStyles.css";
+//import "./MyCalendarStyles.css";
 import ShowAppointment from "./showAppointment";
 import MakeAppointment from "./makeAppointment";
 import { appiontmentProp } from "../appointment/types";
