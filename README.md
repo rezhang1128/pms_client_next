@@ -8,7 +8,7 @@ First, run the development server:
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open (http://localhost:3000/appointment, http://localhost:3000/schedule, http://localhost:3000/location) with your browser to see the result.
 
 ## Libs
 
