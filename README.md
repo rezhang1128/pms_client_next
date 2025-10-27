@@ -21,3 +21,4 @@ Open (http://localhost:3000/appointment, http://localhost:3000/schedule, http://
 ## Notes
 
 - [Use Ant Design with Next.js](https://ant.design/docs/react/use-with-next)
+- Can only access Localhost:3000/schedule, Localhost:3000/appointment, Localhost:3000/location, Localhost:3000/sign-in, Localhost:3000/sign-up
