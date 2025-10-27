@@ -9,7 +9,7 @@ npm update
 npm start
 ```
 
-Open (http://localhost:3000/appointment, http://localhost:3000/schedule, http://localhost:3000/location) with your browser to see the result.
+Open (http://localhost:3000/appointment, http://localhost:3000/schedule, http://localhost:3000/location, http://localhost:3000/sign-in, http://localhost:3000/sign-up) with your browser to see the result.
 
 ## Libs
 
